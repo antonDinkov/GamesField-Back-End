@@ -98,7 +98,7 @@ async function deleteById(id, userId) {
 
 module.exports = {
     getAll,
-    getLastThree,
+    /* getLastThree, */
     getTopFivePlayed,
     getById,
     getByIdKey,
