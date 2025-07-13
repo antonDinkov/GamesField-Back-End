@@ -1,0 +1,22 @@
+<section id="catalog">
+    <h1>All posts</h1>
+    <div class="wrap">
+        <!-- If there are posts for car in the database display each of them -->
+        {{#if posts}}
+        {{#each posts}}
+        {{> item}}
+        {{/each}}
+        {{else}}
+        <div class="no-posts">
+            <p class="no-cars">There are no car posts yet...</p>
+        </div>
+        {{/if}}
+
+
+
+        <!-- If there are still no posts in the database display: -->
+        <!-- <div class="no-posts">
+                        <p class="no-cars">There are no car posts yet...</p>
+                    </div> -->
+    </div>
+</section>

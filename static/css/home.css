@@ -1,0 +1,112 @@
+.home-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50vw;
+    text-align: center;
+}
+#home{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.short-info {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2em;
+    padding: 3em;
+    height: 30%;
+    background-color: #000000a0;
+border-top-left-radius: 50px;
+border-bottom-right-radius: 50px;
+border: 10px solid black;
+}
+
+.short-info>h1 {
+    text-transform: capitalize;
+    font-size: 3.7rem;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: 3px;
+    color: #ffffff !important;
+    font-family: "Bangers", system-ui !important;
+    pointer-events: auto;
+    word-wrap: break-word;
+    position: relative;
+    font-weight: bold;
+    word-wrap: break-word;
+    padding-left: 1em;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px rgb(0, 0, 0);
+
+}
+
+.short-info>h2 {
+    text-transform: capitalize;
+    font-size: 2.2rem;
+    font-weight: 600;
+     letter-spacing: 2px;
+    line-height: 1.1;
+    color: #fffefe !important;
+    font-family: "Bangers", system-ui !important;
+    pointer-events: auto;
+    word-wrap: break-word;
+    position: relative;
+    font-weight: bold;
+    word-wrap: break-word;
+    padding-left: 1em;
+    text-shadow: 2px 2px black;
+}
+
+#home-page {
+    display: block;
+    justify-content: space-around;
+    align-items: center;
+    bottom: 0;
+    margin-top: 0px;
+    margin-left: 0%;
+    margin-right: 0%;
+    min-height: 350px;
+    font-size: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+#home-page>h1 {
+    font-size: 2.4rem;
+    position: relative;
+    font-weight: 700;
+    line-height: 1.1;
+    padding: 0;
+    letter-spacing: 0px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: rgb(234, 236, 250);
+    margin-top: 50px;
+    font-size: 4.5rem;
+    font-family: "Playfair Display", serif
+}
+
+.cars {
+    font-size: 0;
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.container {
+    margin-top: 15px;
+    box-shadow: 2px 2px 3px 2px rgba(0, 0, 0, 0.597);
+    height: 100%;
+    border-radius: 20px;
+}
+
+.container>img {
+    display: inline-block;
+    border: 6px solid rgb(0, 0, 0);
+    border-radius: 20px;
+    height: 200px;
+    width: 330px;
+    max-width: 100%;
+}
+

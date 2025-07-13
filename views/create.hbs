@@ -1,0 +1,48 @@
+<section id="create-page">
+    <div class="createSection">
+        <div class="info">
+            <h2>Post your ride. Explore the wildest builds. Join a global community driven by passion.</h2>
+        </div>
+
+        <form method="post" class="createForm">
+            <h2>Create Car Showcase</h2>
+            <ul class="ul-wrap">
+                <li>
+                    <label for="car-model">Car Model Name:</label>
+                    <input type="text" class="inputFields" id="car-model" name="model"
+                        placeholder="Bugatti Chiron" {{#if data.model}}value="{{data.model}}"{{/if}}/>
+                </li>
+                <li>
+                    <label for="manufacturer">Manufacturer:</label>
+                    <input type="text" class="inputFields" id="manufacturer" name="manufacturer"
+                        placeholder="Bugatti" {{#if data.manufacturer}}value="{{data.manufacturer}}"{{/if}}/>
+                </li>
+                <li>
+                    <label for="engine-type">Engine Type:</label>
+                    <input type="text" class="inputFields" id="engine-type" name="engine"
+                        placeholder="8.0L Quad-Turbo W16" {{#if data.engine}}value="{{data.engine}}"{{/if}}/>
+                </li>
+                <li>
+                    <label for="top-speed">Top Speed:</label>
+                    <input type="text" class="inputFields" id="top-speed" name="topSpeed"
+                        placeholder="Top Speed: 304 mph" {{#if data.topSpeed}}value="{{data.topSpeed}}"{{/if}}/>
+                </li>
+                <li>
+                    <label for="car-image">Image URL:</label>
+                    <input type="text" class="inputFields" id="car-image" name="image" placeholder="https://..." {{#if data.image}}value="{{data.image}}"{{/if}}/>
+                </li>
+                <li>
+                    <label for="description">Car Description:</label>
+                    <textarea id="description" class="inputFields" name="description"
+                        placeholder="A brief summary of this exotic vehicle..."> {{#if data.description}}{{data.description}}{{/if}}</textarea>
+                </li>
+                <li id="center-btn">
+                    <button id="create-btn">Create</button>
+                </li>
+            </ul>
+        </form>
+
+
+
+    </div>
+</section>

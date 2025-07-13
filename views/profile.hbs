@@ -1,0 +1,19 @@
+<section id="my-posts">
+    <h1>My Cars Posts</h1>
+
+    <div class="my-container">
+        {{#if ownerToResult}}
+            {{#each ownerToResult}}
+                {{> item2}}
+            {{/each}}
+        {{else}}
+        <div class="no-posts">
+            <p class="no-cars">There are no own posts yet....</p>
+        </div>
+        {{/if}}
+        <!-- If there are still no posts in the database display: -->
+        <!-- <div class="no-posts">
+                        <p class="no-cars">There are no own posts yet....</p>
+                    </div> -->
+    </div>
+</section>

@@ -1,0 +1,47 @@
+<section id="edit-page">
+    <div class="editSection">
+        <div class="info">
+            <h2>Update the details of your showcased vehicle below. Make sure all the information is accurate - car
+                lovers are watching!</h2>
+        </div>
+
+        <form method="post" class="editForm">
+            <h2>Edit Car Showcase</h2>
+            <ul class="ul-wrap">
+                <li>
+                    <label for="car-name">Car Model Name:</label>
+                    <input type="text" class="inputFields" id="car-name" name="model" placeholder="Bugatti Chiron" {{#if post.model}}value="{{post.model}}"{{/if}}/>
+                </li>
+                <li>
+                    <label for="manufacturer">Manufacturer:</label>
+                    <input type="text" class="inputFields" id="manufacturer" name="manufacturer"
+                        placeholder="Bugatti" {{#if post.manufacturer}}value="{{post.manufacturer}}"{{/if}}/>
+                </li>
+                <li>
+                    <label for="engine-type">Engine Type:</label>
+                    <input type="text" class="inputFields" id="engine-type" name="engine"
+                        placeholder="8.0L Quad-Turbo W16" {{#if post.engine}}value="{{post.engine}}"{{/if}}/>
+                </li>
+                <li>
+                    <label for="top-speed">Top Speed:</label>
+                    <input type="text" class="inputFields" id="top-speed" name="topSpeed"
+                        placeholder="Top Speed: 304 kmph" {{#if post.topSpeed}}value="{{post.topSpeed}}"{{/if}}/>
+                </li>
+                <li>
+                    <label for="car-image">Image URL:</label>
+                    <input type="text" class="inputFields" id="car-image" name="image" placeholder="https://..." {{#if post.image}}value="{{post.image}}"{{/if}}/>
+                </li>
+                <li>
+                    <label for="description">Car Description:</label>
+                    <textarea id="description" class="inputFields" name="description"
+                        placeholder="A brief summary of this exotic vehicle..."> {{#if post.description}}{{post.description}}{{/if}}</textarea>
+                </li>
+                <li id="center-btn">
+                    <button id="edit-btn">Edit</button>
+                </li>
+            </ul>
+
+        </form>
+
+    </div>
+</section>

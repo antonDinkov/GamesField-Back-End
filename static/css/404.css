@@ -1,0 +1,51 @@
+.full-screen {
+  background-color: #000000cf;
+  width: 100%;
+  height: 85vh;
+  margin-top: 5vh;
+  color: white;
+  font-family: "Arial Black";
+  text-align: center;
+}
+
+.con-not-found {
+  padding-top: 2em;
+  padding: auto;
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+}
+
+.con-not-found img {
+    width: 22vw;
+    margin-top: 20vh;
+
+}
+
+.error-num{
+    font-size:100px;
+}
+
+.con-not-found  p {
+  margin-bottom: 2em;
+  margin-top: 1em;
+  font-size: 30px;
+  color: white;
+}
+
+.con-not-found .error-message > p > a {
+  color: #72a4ab;
+  font-weight: bold;
+  font-size: 30px;
+  font-variant: small-caps;
+  text-decoration: rgb(247, 218, 218);
+}
+
+.con-not-found .error-message > p > a:hover {
+  color: lightgray;
+}
+
+.error-message {
+    margin-top: 3em;
+}

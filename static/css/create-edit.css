@@ -1,0 +1,62 @@
+.createSection,
+.editSection {
+    background: url(../img/bg.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    margin: auto;
+    width: 740px;
+    height: 850px;
+    margin-top: 1rem;
+    left: 35%;
+    text-align: center;
+    display: flex;
+    color: white;
+    box-shadow: 3px 10px 20px 5px rgba(0, 0, 0, .5);
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+textarea {
+    resize: none;
+}
+
+.createForm,
+.editForm {
+    width: 720px;
+    padding: 10px 0;
+    background: rgba(124, 125, 118, 0.8);
+    transition: .2s;
+   border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.createForm>h2,
+.editForm>h2 {
+    font-weight: 550;
+    font-size: 27px;
+    margin-bottom: 0.8em;
+}
+
+#create-btn,
+#edit-btn {
+    border: 1px solid rgba(10, 180, 180, 1);
+    background: rgba(20, 20, 20, .6);
+    font-size: 18px;
+    color: white;
+    margin-top: 20px;
+    padding: 10px 43px;
+    cursor: pointer;
+    transition: .4s;
+}
+
+#create-btn:hover,
+#edit-btn:hover {
+    background: rgba(20, 20, 20, .8);
+    padding: 10px 80px;
+}
+
+::placeholder {
+  color: white;
+  opacity: 1; 
+}
