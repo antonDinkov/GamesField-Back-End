@@ -37,7 +37,7 @@ homeRouter.post('/create', isUser(),
         const { model, manufacturer, image, engine, topSpeed, description } = req.body;
         try {
             const validation = validationResult(req);
-            
+
             if (!validation.isEmpty()) {
                 throw validation.array();
             }
@@ -57,6 +57,22 @@ homeRouter.get('/catalog', async (req, res) => {
     res.render('catalog', { posts, title: 'Catalog' });
 });
 
+homeRouter.get('/id/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const game = await getById(id);
+        if (!game) {
+            return res.status(404).json({ message: 'Game not found' });
+        }
+        res.json(game);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
+    }
+
+
+})
+
 homeRouter.get('/catalog/:id', async (req, res) => {
 
     const id = req.params.id;
@@ -72,9 +88,9 @@ homeRouter.get('/catalog/:id', async (req, res) => {
     };
 
     const isLoggedIn = req.user;
-    
+
     const isAuthor = req.user?._id == post.owner.toString();
-    
+
     const hasInteracted = Boolean(post.likes.find(id => id.toString() == req.user?.email/* _id */.toString()));
 
     res.render('details', { post, username, interactionCount, isLoggedIn, isAuthor, hasInteracted, interactorsNames, title: `Details ${post.name}` });
@@ -82,13 +98,13 @@ homeRouter.get('/catalog/:id', async (req, res) => {
 
 
 homeRouter.get('/catalog/:id/edit', isOwner(), async (req, res) => {
-    
+
     try {
         const post = await getById(req.params.id);
 
         if (!post) {
             console.log('Blocked');
-            
+
             res.render('404');
             return;
         };
@@ -119,12 +135,12 @@ homeRouter.post('/catalog/:id/edit', isOwner(),
                 res.render('404');
                 return;
             };
-            
+
             const newRecord = await update(req.params.id, req.user._id, req.body);
-            
+
             res.redirect(`/catalog/${req.params.id}`);
         } catch (err) {
-            
+
             res.render('edit', { post, errors: parseError(err).errors });
         }
     });
@@ -150,13 +166,13 @@ homeRouter.get('/catalog/:id/interact', hasInteracted(), async (req, res) => {
 });
 
 homeRouter.get('/profile', isUser(), async (req, res) => {
-    const { _id, firstName, email} = req.user;
+    const { _id, firstName, email } = req.user;
     const posts = await getAll();
     const ownerTo = posts.filter(p => p.owner.toString() == _id.toString());
     console.log('User is owner to: ', ownerTo);
     const ownerToResult = ownerTo.length > 0 ? ownerTo : null;
     const ownerToCount = ownerTo.length;
-    
+
     const interactedWith = posts.filter((p) => {
         const array = p.likes.map(p => p.toString());
         return array.includes(/* _id */firstName.toString())

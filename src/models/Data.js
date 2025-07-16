@@ -32,6 +32,14 @@ const dataSchema = new Schema({
             message: 'Image URL must start with http:// or https://'
         }
     },
+    iframeUrl: {
+        type: String,
+        required: true,
+        validate: {
+            validator: (v) => /^https?:\/\//.test(v),
+            message: 'The Game URL must start with http:// or https://'
+        }
+    },
     description: {
         type: String,
         required: true
