@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const secret = 'super secr3t'
+const secret = process.env.JWT_SECRET || 'super secr3t'
 //TODO use identity name from exam description
 
 function createToken(userData) {

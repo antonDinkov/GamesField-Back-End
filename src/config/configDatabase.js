@@ -5,7 +5,7 @@ require('../models/Data');//TODO import real data model
 
 async function configDatabase() {
     //TODO set database name
-    const connectionsString = 'mongodb://localhost:27017/gamesfield-db';
+    const connectionsString = process.env.MONGODB_URI || 'mongodb://localhost:27017/gamesfield-db';
 
     await mongoose.connect(connectionsString, {});
 
