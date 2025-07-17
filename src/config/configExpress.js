@@ -7,7 +7,7 @@ const secret = process.env.COOKIE_SECRET || 'cookie secr3t'
 
 function configExpress(app) {
     app.use(cors({
-        origin: 'http://localhost:4200',
+        origin: '*',
         credentials: true
     }));
     app.use(cookieParser(secret));
