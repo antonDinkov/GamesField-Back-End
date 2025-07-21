@@ -18,24 +18,6 @@ async function start() {
     configExpress(app);
     configRoutes(app);
     
-    app.listen(3000, () => console.log('Server started http://localhost:3000'));
-    //testFunction();
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 };
-
-/* async function testFunction() {
-    try {
-        const result = await login('John', '123456');
-        console.log(result);
-        
-        const token = createToken(result);
-        console.log(token);
-
-        const parsedData = verifyToken(token);
-
-        console.log(parsedData);
-        
-    } catch (err) {
-        console.log('Cought error');
-        console.log(err.message);
-    }
-} */
