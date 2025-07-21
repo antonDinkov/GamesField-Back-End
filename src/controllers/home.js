@@ -54,7 +54,7 @@ homeRouter.post('/create', isUser(),
 
 homeRouter.get('/catalog', async (req, res) => {
     const posts = await getAll();
-    res.json('catalog', { posts, title: 'Catalog' });
+    res.json(posts);
 });
 
 homeRouter.get('/id/:id', async (req, res) => {
