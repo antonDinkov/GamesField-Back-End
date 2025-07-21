@@ -7,6 +7,10 @@ function configRoutes(app) {
     try {
         app.use(homeRouter);
         app.use(userRouter);
+        // Health check endpoint:
+        app.get('/health', (req, res) => {
+            res.status(200).send('OK');
+        });
         //TODO register routers
         app.use(invalidPathRouter);
     } catch (err) {
