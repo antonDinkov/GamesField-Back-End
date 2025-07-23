@@ -30,9 +30,9 @@ userRouter.post('/register', isGuest(),
             const token = createToken(userData);
             res.cookie('token', token);
 
-            res.redirect('/');
+            res.status(201).json({ message: 'User registered successfully', user: userData });
         } catch (err) {
-            res.render('register', { data: { firstName: req.body.firstName, lastName: req.body.lastName, email: req.body.email }, errors: parseError(err).errors });
+            res.status(500).json({ errors: parseError(err).errors });
         }
 
     });
@@ -56,9 +56,9 @@ userRouter.post('/login', isGuest(),
 
             res.cookie('token', token);
 
-            res.redirect('/');
+            res.status(200).json({ message: 'User logged in successfully', user: userData });
         } catch (err) {
-            res.render('login', { data: { email: req.body.email }, errors: parseError(err).errors });
+            res.status(500).json({ errors: parseError(err).errors });
         }
     });
 
