@@ -8,7 +8,7 @@ const { parseError } = require('../util');
 const userRouter = Router();
 
 userRouter.get('/register', isGuest(), (req, res) => {
-    res.render('register', { title: 'Register'});
+    res.render('register', { title: 'Register' });
 });
 userRouter.post('/register', isGuest(),
     body('firstName').trim().isLength({ min: 3 }).withMessage('Firstname must be atleast 3 characters long'),
@@ -19,7 +19,7 @@ userRouter.post('/register', isGuest(),
     async (req, res) => {
         try {
             const validation = validationResult(req);
-            
+
             if (!validation.isEmpty()) {
                 console.log('Validation errors:', validation.array());
                 throw validation.array();
@@ -39,7 +39,7 @@ userRouter.post('/register', isGuest(),
     });
 
 userRouter.get('/login', isGuest(), (req, res) => {
-    res.render('login', { title: 'Login'});
+    res.render('login', { title: 'Login' });
 });
 userRouter.post('/login', isGuest(),
     body('email').trim().isLength({ min: 10 }).withMessage('Email must be atleast 10 characters long'),
@@ -55,7 +55,11 @@ userRouter.post('/login', isGuest(),
 
             const token = createToken(userData);
 
-            res.cookie('token', token);
+            res.cookie('token', token, {
+                httpOnly: true,
+                secure: true,        // задължително за https
+                sameSite: 'none'
+            });
 
             res.status(200).json({ message: 'User logged in successfully', user: userData });
         } catch (err) {
@@ -67,8 +71,8 @@ userRouter.post('/login', isGuest(),
 userRouter.get('/logout', isUser(), (req, res) => {
     res.clearCookie('token', {
         httpOnly: true,
+        secure: true,
         sameSite: 'none',
-        secure: true
     });
     res.status(200).json({ message: 'Logout successful' });
 });
