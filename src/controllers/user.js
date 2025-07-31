@@ -66,7 +66,6 @@ userRouter.post('/login', isGuest(),
 
 userRouter.get('/logout', isUser(), (req, res) => {
     res.clearCookie('token');
-    res.redirect('/');
 });
 
 module.exports = { userRouter };
