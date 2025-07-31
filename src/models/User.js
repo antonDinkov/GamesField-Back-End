@@ -25,6 +25,8 @@ const userSchema = new Schema({
     },
     picture: {
         type: String,
+        required: true,
+        default: 'https://spng.pngfind.com/pngs/s/16-168087_wikipedia-user-icon-bynightsight-user-image-icon-png.png'
     },
     lastPlayed: {
         type: Types.ObjectId,
