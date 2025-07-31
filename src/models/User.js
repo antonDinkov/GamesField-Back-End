@@ -25,7 +25,6 @@ const userSchema = new Schema({
     },
     picture: {
         type: String,
-        required: true
     },
     lastPlayed: {
         type: Types.ObjectId,

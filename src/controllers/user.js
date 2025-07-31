@@ -21,17 +21,18 @@ userRouter.post('/register', isGuest(),
             const validation = validationResult(req);
             
             if (!validation.isEmpty()) {
+                console.log('Validation errors:', validation.array());
                 throw validation.array();
             };
-            
+
             const userData = await register(req.body.email, req.body.firstName, req.body.lastName, req.body.password);
 
-            res.json(userData)
             const token = createToken(userData);
             res.cookie('token', token);
 
             res.status(201).json({ message: 'User registered successfully', user: userData });
         } catch (err) {
+            console.error('Error in /register:', err);
             res.status(500).json({ errors: parseError(err).errors });
         }
 

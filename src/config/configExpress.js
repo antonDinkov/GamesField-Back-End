@@ -15,6 +15,7 @@ function configExpress(app) {
     //TODO add session middleware
 
     app.use('/static', express.static('static'));
+    app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
 };
 
