@@ -23,6 +23,10 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    picture: {
+        type: String,
+        required: true
+    },
     lastPlayed: {
         type: Types.ObjectId,
         ref: 'Data',
