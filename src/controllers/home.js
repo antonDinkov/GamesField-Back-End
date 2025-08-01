@@ -81,7 +81,7 @@ homeRouter.get('/catalog/:id', async (req, res) => {
             return res.status(404).json({ message: 'Post not found' });
         };
         const user = await getUserById(post.owner.toString());
-        const username = user.username;
+        const username = user.firstName;
         const interactorsNames = post.likes.join(', ');
         let interactionCount = post.likes.length;
 
