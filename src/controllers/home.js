@@ -74,26 +74,29 @@ homeRouter.get('/id/:id', async (req, res) => {
 })
 
 homeRouter.get('/catalog/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const post = await getById(id);
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        };
+        const user = await getUserById(post.owner.toString());
+        const username = user.username;
+        const interactorsNames = post.likes.join(', ');
+        let interactionCount = post.likes.length;
 
-    const id = req.params.id;
-    const post = await getById(id);
-    const user = await getUserById(post.owner.toString());
-    const username = user.username;
-    const interactorsNames = post.likes.join(', ');
-    let interactionCount = post.likes.length;
 
-    if (!post) {
-        res.render('404', { title: 'Error' });
-        return;
-    };
+        const isLoggedIn = Boolean(req.user);
 
-    const isLoggedIn = req.user;
+        const isAuthor = req.user?._id.toString() == post.owner.toString();
 
-    const isAuthor = req.user?._id == post.owner.toString();
+        const hasInteracted = Boolean(post.likes.find(id => id.toString() == req.user?.email/* _id */.toString()));
 
-    const hasInteracted = Boolean(post.likes.find(id => id.toString() == req.user?.email/* _id */.toString()));
-
-    res.render('details', { post, username, interactionCount, isLoggedIn, isAuthor, hasInteracted, interactorsNames, title: `Details ${post.name}` });
+        res.json({ post, username, interactionCount, isLoggedIn, isAuthor, hasInteracted, interactorsNames, title: `Details ${post.name}` });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
 });
 
 
