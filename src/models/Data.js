@@ -17,7 +17,8 @@ const dataSchema = new Schema({
     },
     views: {
         type: Number,
-        required: true
+        required: true,
+        default:0
     },
     played: {
         type: Number,
@@ -39,6 +40,10 @@ const dataSchema = new Schema({
             validator: (v) => /^https?:\/\//.test(v),
             message: 'The Game URL must start with http:// or https://'
         }
+    },
+    instructions: {
+        type: String,
+        required: true
     },
     description: {
         type: String,
