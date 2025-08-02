@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { register, login } = require('../services/user');
+const { register, login, getUserById } = require('../services/user');
 const { isGuest, isUser } = require('../middlewares/guards');
 const { createToken } = require('../services/jwt');
 const { body, validationResult } = require('express-validator');
@@ -76,5 +76,16 @@ userRouter.get('/logout', isUser(), (req, res) => {
     });
     res.status(200).json({ message: 'Logout successful' });
 });
+
+userRouter.get('/me', (req, res) => {
+    const token = req.cookies.token;
+    if (!token) return res.status(401).json({ message: 'Unauthorized' });
+    try {
+        const userData = getUserById(req.user._id)
+        res.json({ user: userData });
+    } catch (err) {
+        res.status(401).json({ message: 'Invalid token' });
+    }
+})
 
 module.exports = { userRouter };
