@@ -27,14 +27,15 @@ homeRouter.get('/create', isUser(), (req, res) => {
     res.render('create', { title: 'Create' });
 });
 homeRouter.post('/create', isUser(),
-    body('model').trim().isLength({ min: 2 }).withMessage('The Model should be atleast 2 characters'),
-    body('manufacturer').trim().isLength({ min: 3 }).withMessage('The Manufacturer should be atleast 3 characters long'),
-    body('image').trim().isURL({ require_tld: false, require_protocol: true }).withMessage('The Image should start with http:// or https:// and must be a valid URL'),
-    body('engine').trim().isLength({ min: 3 }).withMessage('The Engine should be atleast 3 characters long'),
-    body('topSpeed').trim().notEmpty().withMessage('Topspeed is required').bail().isFloat({ min: 10 }).withMessage('Top Speed should be atleast 2 digit number'),
-    body('description').trim().isLength({ min: 5, max: 500 }).withMessage('The Description should be between 5 and 500 characters long'),
+    body('name').trim().isLength({ min: 2 }).withMessage('The name should be at least 2 characters'),
+    body('manufacturer').trim().isLength({ min: 3 }).withMessage('The manufacturer should be at least 3 characters'),
+    body('genre').trim().notEmpty().withMessage('Genre is required'),
+    body('image').trim().isURL({ require_protocol: true }).withMessage('Image must start with http:// or https://'),
+    body('iframeUrl').trim().isURL({ require_protocol: true }).withMessage('Game URL must start with http:// or https://'),
+    body('instructions').trim().isLength({ min: 5 }).withMessage('Instructions should be at least 5 characters'),
+    body('description').trim().isLength({ min: 5, max: 500 }).withMessage('Description should be between 5 and 500 characters'),
     async (req, res) => {
-        const { model, manufacturer, image, engine, topSpeed, description } = req.body;
+        const { name, manufacturer, genre, image, iframeUrl, instructions, description } = req.body;
         try {
             const validation = validationResult(req);
 
@@ -46,9 +47,10 @@ homeRouter.post('/create', isUser(),
 
             const result = await create(req.body, authorId);
 
-            res.redirect('/catalog');
+            return res.status(201).json({ message: 'Game created successfully', game: result });
         } catch (err) {
-            res.render('create', { data: { model, manufacturer, image, engine, topSpeed, description }, errors: parseError(err).errors })
+            console.error('Create error:', err);
+            return res.status(500).json({ errors: parseError(err).errors || ['Unexpected server error.'] });
         }
     });
 

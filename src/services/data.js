@@ -28,15 +28,17 @@ async function getByIdKey(id, key) {
 
 async function create(data, authorId) {
     const record = new Data({
-        model: data.model,
+        name: data.name,
         manufacturer: data.manufacturer,
-        engine: data.engine,
-        topSpeed: Number(data.topSpeed),
+        genre: data.genre,
         image: data.image,
-        description : data.description ,
+        iframeUrl: data.iframeUrl,
+        instructions: data.instructions,
+        description: data.description,
         likes: [],
+        views: 0,
+        played: 0,
         owner: authorId
-
     });
 
     await record.save();
