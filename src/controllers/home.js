@@ -150,14 +150,15 @@ homeRouter.post('/catalog/:id/edit', isOwner(),
         }
     });
 
-homeRouter.get('/catalog/:id/delete', isOwner(), async (req, res) => {
+homeRouter.delete('/catalog/:id', isOwner(), async (req, res) => {
     try {
         const id = req.params.id;
         const userId = req.user._id;
         await deleteById(id, userId);
-        res.redirect('/catalog');
+        res.status(200).json({ success: true, message: 'The game is successfully deleted' });
     } catch (err) {
-        res.render('404', { title: 'Error' });
+        console.error('Error occurred: ', err);
+        res.status(400).json({ success: false, error: err.message || 'Unknown error' });
     }
 });
 
