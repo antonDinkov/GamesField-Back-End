@@ -58,12 +58,13 @@ async function update(id, userId, newData) {
     }
 
     //TODO replace with real properties
-        record.model = newData.model;
-        record.manufacturer = newData.manufacturer;
-        record.engine = newData.engine;
-        record.topSpeed = Number(newData.topSpeed);
-        record.image= newData.image;
-        record.description = newData.description;
+        record.name = newData.name,
+        record.manufacturer = newData.manufacturer,
+        record.genre = newData.genre,
+        record.image = newData.image,
+        record.iframeUrl = newData.iframeUrl,
+        record.instructions = newData.instructions,
+        record.description = newData.description,
 
     await record.save();
 
