@@ -63,7 +63,7 @@ function hasInteracted() {
             
             const allInteractorsArray = allInteractors.map(int => int.toString());
             
-            const hasInteracted = allInteractorsArray.includes(req.user.email.toString());
+            const hasInteracted = allInteractorsArray.includes(req.user._id.toString());
             
             if (!hasInteracted) {
                 next();
