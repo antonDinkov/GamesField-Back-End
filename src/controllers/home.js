@@ -92,7 +92,7 @@ homeRouter.get('/catalog/:id', async (req, res) => {
 
         const isAuthor = req.user?._id.toString() == post.owner.toString();
 
-        const hasInteracted = Boolean(post.likes.find(id => id.toString() == req.user?.email/* _id */.toString()));
+        const hasInteracted = Boolean(post.likes.find(id => id.toString() == req.user?._id/* _id */.toString()));
 
         res.json({ post, username, interactionCount, isLoggedIn, isAuthor, hasInteracted, interactorsNames, title: `Details ${post.name}` });
     } catch (error) {
