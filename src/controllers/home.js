@@ -163,11 +163,14 @@ homeRouter.delete('/catalog/:id', isOwner(), async (req, res) => {
 });
 
 homeRouter.get('/catalog/:id/interact', hasInteracted(), async (req, res) => {
+    console.log('is interacting');
+    
     try {
-        await interact(req.params.id, req.user.email,/* req.user._id, */ "likes");
-        res.redirect(`/catalog/${req.params.id}`);
+        const gameInfo = await interact(req.params.id, req.user._id,/* req.user._id, */ "likes");
+        res.status(200).json(gameInfo);
     } catch (err) {
-        res.render('404', { title: 'Error' });
+        console.error('Error occurred: ', err);
+        res.status(400).json({ success: false, error: err.message || 'Unknown error' });
     }
 });
 
