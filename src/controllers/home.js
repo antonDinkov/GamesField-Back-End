@@ -33,7 +33,7 @@ homeRouter.post('/create', isUser(),
     body('image').trim().isURL({ require_protocol: true }).withMessage('Image must start with http:// or https://'),
     body('iframeUrl').trim().isURL({ require_protocol: true }).withMessage('Game URL must start with http:// or https://'),
     body('instructions').trim().isLength({ min: 5 }).withMessage('Instructions should be at least 5 characters'),
-    body('description').trim().isLength({ min: 5, max: 500 }).withMessage('Description should be between 5 and 500 characters'),
+    body('description').trim().isLength({ min: 5, max: 500 }).withMessage('Description should be between 5 and 5000 characters'),
     async (req, res) => {
         const { name, manufacturer, genre, image, iframeUrl, instructions, description } = req.body;
         try {
@@ -127,7 +127,7 @@ homeRouter.post('/catalog/:id/edit', isOwner(),
     body('image').trim().isURL({ require_protocol: true }).withMessage('Image must start with http:// or https://'),
     body('iframeUrl').trim().isURL({ require_protocol: true }).withMessage('Game URL must start with http:// or https://'),
     body('instructions').trim().isLength({ min: 5 }).withMessage('Instructions should be at least 5 characters'),
-    body('description').trim().isLength({ min: 5, max: 500 }).withMessage('Description should be between 5 and 500 characters'),
+    body('description').trim().isLength({ min: 5, max: 500 }).withMessage('Description should be between 5 and 5000 characters'),
     async (req, res) => {
         const post = await getById(req.params.id);
         try {
