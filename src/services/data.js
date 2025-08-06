@@ -99,15 +99,12 @@ async function deleteById(id, userId) {
     await Data.findByIdAndDelete(id);
 };
 
-async function searchByKeyword(keyword) {
-    try {
-        const regex = new RegExp(keyword, 'i'); // 'i' прави търсенето case-insensitive
-        const results = await Data.find({ name: { $regex: regex } });
-        return results;
-    } catch (err) {
-        console.error('Error during search:', err);
-        throw err;
-    }
+async function searchByKeyword(keyword, field = 'name') {
+    const regex = new RegExp(keyword, 'i');
+    const filter = {};
+    filter[field] = { $regex: regex };
+
+    return Data.find(filter);
 }
 
 async function getMostViewed() {

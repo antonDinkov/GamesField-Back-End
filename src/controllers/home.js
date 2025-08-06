@@ -191,4 +191,20 @@ homeRouter.get('/profile', isUser(), async (req, res) => {
     res.render('profile', { title: 'Profile', _id, firstName, email, ownerToResult, ownerToCount, interactedWithResult, inteactedWithCount });
 });
 
+homeRouter.get('/search', async (req, res) => {
+    const { search = '', by = 'name' } = req.query;
+
+    try {
+        if (!['name', 'genre'].includes(by)) {
+            return res.status(400).json({ error: 'Invalid search type. Use "name" or "genre".' });
+        }
+
+        const result = await searchByKeyword(search, by);
+        res.status(200).json({ result, search, by });
+    } catch (err) {
+        console.error('Search error:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 module.exports = { homeRouter }
