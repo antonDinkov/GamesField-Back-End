@@ -164,7 +164,7 @@ homeRouter.delete('/catalog/:id', isOwner(), async (req, res) => {
 
 homeRouter.get('/catalog/:id/interact', hasInteracted(), async (req, res) => {
     try {
-        const gameInfo = await interact(req.params.id, req.user._id,/* req.user._id, */ "likes");
+        const gameInfo = await interact(req.params.id, req.user._id, "likes");
         res.status(200).json(gameInfo);
     } catch (err) {
         console.error('Error occurred: ', err);

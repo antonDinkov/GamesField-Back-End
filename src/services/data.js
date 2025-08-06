@@ -99,6 +99,56 @@ async function deleteById(id, userId) {
     await Data.findByIdAndDelete(id);
 };
 
+async function searchByKeyword(keyword) {
+    try {
+        const regex = new RegExp(keyword, 'i'); // 'i' прави търсенето case-insensitive
+        const results = await Data.find({ name: { $regex: regex } });
+        return results;
+    } catch (err) {
+        console.error('Error during search:', err);
+        throw err;
+    }
+}
+
+async function getMostViewed() {
+    try {
+        const results = await Data.find().sort({ views: -1 });
+        return results;
+    } catch (err) {
+        console.error('Error getting most viewed:', err);
+        throw err;
+    }
+}
+
+async function getMostPlayed() {
+    try {
+        const results = await Data.find().sort({ played: -1 });
+        return results;
+    } catch (err) {
+        console.error('Error getting most played:', err);
+        throw err;
+    }
+}
+
+async function getMostLiked() {
+    try {
+        const results = await Data.aggregate([
+            {
+                $addFields: {
+                    likesCount: { $size: '$likes' }
+                }
+            },
+            {
+                $sort: { likesCount: -1 }
+            }
+        ]);
+        return results;
+    } catch (err) {
+        console.error('Error getting most liked:', err);
+        throw err;
+    }
+}
+
 module.exports = {
     getAll,
     /* getLastThree, */
@@ -108,5 +158,9 @@ module.exports = {
     create,
     update,
     interact,
-    deleteById
+    deleteById,
+    searchByKeyword,
+    getMostViewed,
+    getMostPlayed,
+    getMostLiked
 }
