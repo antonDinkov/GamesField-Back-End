@@ -2,7 +2,7 @@ const { Router } = require("express");
 const { isUser, isOwner, hasInteracted } = require("../middlewares/guards");
 const { body, validationResult } = require("express-validator");
 const { parseError } = require("../util");
-const { create, getAll, getById, update, deleteById, getLastThree, interact, getTopFivePlayed } = require("../services/data");
+const { create, getAll, getById, update, deleteById, getLastThree, interact, getTopFivePlayed, searchByKeyword } = require("../services/data");
 const { getUserById } = require("../services/user");
 
 //TODO replace with real router according to exam description
