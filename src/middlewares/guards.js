@@ -49,30 +49,37 @@ function isOwner() {
 function hasInteracted() {
     return async function (req, res, next) {
         try {
-            if (!req.user._id) {
-                throw new Error("You need to be logged in");
-            };
-
-            const post = await getById(req.params.id);//тази проверка не я бях направил
-            if (req.user._id === post.owner.toString()) {
-                throw new Error("You can not like your own post");
-            }
-
-            //по погрешка getByIdKey го бях направил винаги да ми връща масив ако не намери ключа и затова не ми хвърляше грешка при грешен ключ и не съм се усетил да актуализирам името на ключа!
-            const allInteractors = await getByIdKey(req.params.id, 'likes');//бях забравил да актуализирам името на ключа
-            
-            const allInteractorsArray = allInteractors.map(int => int.toString());
-            
-            const hasInteracted = allInteractorsArray.includes(req.user._id.toString());
-            
-            if (!hasInteracted) {
+            if (req.body.interaction === 'views' || req.body.interaction === 'played') {0
+                console.log("has interacted");
+                
                 next();
             } else {
-                throw new Error("You have already interacted");
+                if (!req.user._id) {
+                    throw new Error("You need to be logged in");
+                };
+
+                const post = await getById(req.params.id);//тази проверка не я бях направил
+                if (req.user._id === post.owner.toString()) {
+                    throw new Error("You can not like your own post");
+                }
+
+                //по погрешка getByIdKey го бях направил винаги да ми връща масив ако не намери ключа и затова не ми хвърляше грешка при грешен ключ и не съм се усетил да актуализирам името на ключа!
+                const allInteractors = await getByIdKey(req.params.id, 'likes');//бях забравил да актуализирам името на ключа
+
+                const allInteractorsArray = allInteractors.map(int => int.toString());
+
+                const hasInteracted = allInteractorsArray.includes(req.user._id.toString());
+
+                if (!hasInteracted) {
+                    next();
+                } else {
+                    throw new Error("You have already interacted");
+                }
             }
+
         } catch (err) {
-            console.error('Interaction guard error: ',err.message);
-            
+            console.error('Interaction guard error: ', err.message);
+
             res.redirect(`/catalog/${req.params.id}`);
         }
     }

@@ -162,9 +162,9 @@ homeRouter.delete('/catalog/:id', isOwner(), async (req, res) => {
     }
 });
 
-homeRouter.get('/catalog/:id/interact', hasInteracted(), async (req, res) => {
+homeRouter.post('/catalog/:id/interact', hasInteracted(), async (req, res) => {
     try {
-        const gameInfo = await interact(req.params.id, req.user._id, "likes");
+        const gameInfo = await interact(req.params.id, req.body.interaction==='likes'? req.user._id : undefined , req.body.interaction);
         res.status(200).json(gameInfo);
     } catch (err) {
         console.error('Error occurred: ', err);

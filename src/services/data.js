@@ -79,7 +79,11 @@ async function interact(id, userId, interactorsListName) {
     };
 
     //TODO replace with real properties
-    record[interactorsListName].push(userId);
+    if (interactorsListName === 'likes') {
+        record[interactorsListName].push(userId);
+    } else {
+        record[interactorsListName] = (record[interactorsListName] || 0) + 1;;
+    }
     
     await record.save();
 
