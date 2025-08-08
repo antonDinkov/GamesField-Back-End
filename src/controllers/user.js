@@ -77,11 +77,11 @@ userRouter.get('/logout', isUser(), (req, res) => {
     res.status(200).json({ message: 'Logout successful' });
 });
 
-userRouter.get('/me', (req, res) => {
+userRouter.get('/me', async (req, res) => {
     const token = req.cookies.token;
     if (!token) return res.status(401).json({ message: 'Unauthorized' });
     try {
-        const userData = getUserById(req.user._id)
+        const userData = await getUserById(req.user._id);
         res.json({ user: userData });
     } catch (err) {
         res.status(401).json({ message: 'Invalid token' });

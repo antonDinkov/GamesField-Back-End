@@ -1,4 +1,5 @@
 const { Data } = require('../models/Data');
+const { User } = require('../models/User');
 
 //TODO replace with real data service according to exam description
 
@@ -72,8 +73,8 @@ async function update(id, userId, newData) {
 };
 
 async function interact(id, userId, interactorsListName) {
+    
     const record = await Data.findById(id);
-
     if (!record) {
         throw new Error("Record not found " + id);
     };
@@ -81,6 +82,16 @@ async function interact(id, userId, interactorsListName) {
     //TODO replace with real properties
     if (interactorsListName === 'likes') {
         record[interactorsListName].push(userId);
+
+        const user = await User.findById(userId);
+        if (!user) {
+            throw new Error("User not found " + userId);
+        }
+
+        if (!user.myGames.includes(id)) {
+            user.myGames.push(id);
+            await user.save();
+        }
     } else {
         record[interactorsListName] = (record[interactorsListName] || 0) + 1;;
     }

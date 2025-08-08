@@ -49,9 +49,7 @@ function isOwner() {
 function hasInteracted() {
     return async function (req, res, next) {
         try {
-            if (req.body.interaction === 'views' || req.body.interaction === 'played') {0
-                console.log("has interacted");
-                
+            if (req.body.interaction === 'views' || req.body.interaction === 'played') {
                 next();
             } else {
                 if (!req.user._id) {
