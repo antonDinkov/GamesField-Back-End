@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { register, login, getUserById } = require('../services/user');
+const { register, login, getUserById, updateUserInfo } = require('../services/user');
 const { isGuest, isUser } = require('../middlewares/guards');
 const { createToken } = require('../services/jwt');
 const { body, validationResult } = require('express-validator');
@@ -85,6 +85,24 @@ userRouter.get('/me', async (req, res) => {
         res.json({ user: userData });
     } catch (err) {
         res.status(401).json({ message: 'Invalid token' });
+    }
+})
+
+userRouter.put('/update/profile',
+    body('firstName').trim().isLength({ min: 3 }).withMessage('Firstname must be atleast 3 characters long'),
+    body('lastName').trim().isLength({ min: 3 }).withMessage('Lastname must be atleast 3 characters long'),
+    body('email').trim().isEmail().isLength({ min: 10 }).withMessage('Email must be atleast 10 characters long'),
+    body('password').trim().isLength({ min: 4 }).withMessage('Password must be atleast 4 characters long'),
+    body('repass').trim().custom((value, { req }) => value == req.body.password).withMessage('Password don\'t match'),
+    async (req, res) => {
+    const token = req.cookies.token;
+    if (!token) return res.status(401).json({ message: 'Unauthorized' });
+
+    try {
+        const userData = await updateUserInfo(req.body.oldEmail, req.body.email, req.body.firstName, req.body.lastName, req.body.password, req.body.picture);
+        res.json({ user: userData });
+    } catch (err) {
+        res.status(401).json({ message: err.message });
     }
 })
 

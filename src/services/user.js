@@ -53,8 +53,39 @@ async function getUserById(id) {
     return User.findById(id).lean();
 };
 
+async function updateUserInfo(oldIdentity, newIdentity, firstName, lastName, password, picture = '') {
+    console.log(oldIdentity, newIdentity, firstName, lastName, password, picture)
+    const user = await User.findOne({ [identityName]: oldIdentity } );
+    if (!user) {
+        throw new Error(`This ${identityName} does not exist`);
+    }
+
+    if (newIdentity && newIdentity !== oldIdentity) {
+        // Провери дали новия имейл вече съществува
+        const existingUser = await User.findOne({ [identityName]: newIdentity });
+        if (existingUser) {
+            throw new Error('This email is already taken');
+        }
+        user.email = newIdentity;
+    }
+
+    if (firstName) user.firstName = firstName;
+    if (lastName) user.lastName = lastName;
+    if (picture) user.picture = picture;
+
+    if (password) {
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        user.password = hashedPassword;
+    }
+
+    await user.save();
+    return user;
+}
+
 module.exports = {
     register,
     login,
-    getUserById
+    getUserById,
+    updateUserInfo
 }
