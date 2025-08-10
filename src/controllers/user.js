@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { register, login, getUserById, updateUserInfo } = require('../services/user');
+const { register, login, getUserById, updateUserInfo, removePicture } = require('../services/user');
 const { isGuest, isUser } = require('../middlewares/guards');
 const { createToken } = require('../services/jwt');
 const { body, validationResult } = require('express-validator');
@@ -95,14 +95,31 @@ userRouter.put('/update/profile',
     body('password').trim().isLength({ min: 4 }).withMessage('Password must be atleast 4 characters long'),
     body('repass').trim().custom((value, { req }) => value == req.body.password).withMessage('Password don\'t match'),
     async (req, res) => {
+        const token = req.cookies.token;
+        if (!token) return res.status(401).json({ message: 'Unauthorized' });
+
+        try {
+            const userData = await updateUserInfo(req.body.oldEmail, req.body.email, req.body.firstName, req.body.lastName, req.body.password, req.body.picture, req.body.pictureId);
+            res.json({ user: userData });
+        } catch (err) {
+            res.status(401).json({ message: err.message });
+        }
+    })
+
+userRouter.put('/update/profile/remove-picture', async (req, res) => {
     const token = req.cookies.token;
     if (!token) return res.status(401).json({ message: 'Unauthorized' });
 
     try {
-        const userData = await updateUserInfo(req.body.oldEmail, req.body.email, req.body.firstName, req.body.lastName, req.body.password, req.body.picture);
-        res.json({ user: userData });
+        const email = req.body.email;
+        console.log(email);
+        
+        const user = await removePicture(email);
+        console.log(user);
+        
+        res.json({ user });
     } catch (err) {
-        res.status(401).json({ message: err.message });
+        res.status(400).json({ message: err.message });
     }
 })
 

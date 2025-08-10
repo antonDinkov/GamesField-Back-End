@@ -1,5 +1,9 @@
 const { User } = require('../models/User');
 const bcrypt = require('bcrypt');
+require('dotenv').config();
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config();
 
 //TODO set identity prop name based on exam description
 const identityName = 'email';
@@ -53,8 +57,8 @@ async function getUserById(id) {
     return User.findById(id).lean();
 };
 
-async function updateUserInfo(oldIdentity, newIdentity, firstName, lastName, password, picture = '') {
-    console.log(oldIdentity, newIdentity, firstName, lastName, password, picture)
+async function updateUserInfo(oldIdentity, newIdentity, firstName, lastName, password, picture = '', pictureId = '') {
+    console.log(oldIdentity, newIdentity, firstName, lastName, password, picture, pictureId)
     const user = await User.findOne({ [identityName]: oldIdentity } );
     if (!user) {
         throw new Error(`This ${identityName} does not exist`);
@@ -72,6 +76,7 @@ async function updateUserInfo(oldIdentity, newIdentity, firstName, lastName, pas
     if (firstName) user.firstName = firstName;
     if (lastName) user.lastName = lastName;
     if (picture) user.picture = picture;
+    if (pictureId) user.pictureId = pictureId;
 
     if (password) {
         const saltRounds = 10;
@@ -83,9 +88,30 @@ async function updateUserInfo(oldIdentity, newIdentity, firstName, lastName, pas
     return user;
 }
 
+async function removePicture(identity) {
+    const user = await User.findOne({ [identityName]: identity } );
+    if (!user) {
+        throw new Error(`This ${identityName} does not exist`);
+    }
+
+    if (user.pictureId) {
+        console.log('Inside if for picture destroy');
+        await cloudinary.uploader.destroy(user.pictureId).then(result => console.log(result));
+    }
+
+    user.picture = ''
+    user.pictureId = '';
+
+    await user.save();
+    console.log(user);
+    
+    return user;
+}
+
 module.exports = {
     register,
     login,
     getUserById,
-    updateUserInfo
+    updateUserInfo,
+    removePicture
 }
