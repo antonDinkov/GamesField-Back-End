@@ -112,6 +112,19 @@ async function getUserById(id) {
     return User.findById(id).lean();
 };
 
+async function deleteById(userId) {
+    const record = await User.findById(userId);
+    if (!record) {
+        throw new Error("Record not found " + userId);
+    };
+
+    if (record._id.toString() != userId) {
+        throw new Error("Access denied");
+    };
+
+    await User.findByIdAndDelete(userId);
+};
+
 async function updateUserInfo(oldIdentity, newIdentity, firstName, lastName, password, picture = '', pictureId = '') {
     console.log(oldIdentity, newIdentity, firstName, lastName, password, picture, pictureId)
     const user = await User.findOne({ [identityName]: oldIdentity });
@@ -167,6 +180,7 @@ module.exports = {
     register,
     login,
     getUserById,
+    deleteById,
     updateUserInfo,
     removePicture
 }

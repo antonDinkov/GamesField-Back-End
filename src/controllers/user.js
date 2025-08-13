@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { register, login, getUserById, updateUserInfo, removePicture } = require('../services/user');
+const { register, login, getUserById, updateUserInfo, removePicture, deleteById } = require('../services/user');
 const { isGuest, isUser } = require('../middlewares/guards');
 const { createToken } = require('../services/jwt');
 const { body, validationResult } = require('express-validator');
@@ -129,5 +129,16 @@ userRouter.put('/update/profile/remove-picture', async (req, res) => {
         res.status(400).json({ message: err.message });
     }
 })
+
+userRouter.delete('/profile/:id', isUser(), async (req, res) => {
+    try {
+        const userId = req.user._id;
+        await deleteById(userId);
+        res.status(200).json({ success: true, message: 'Your Profile is successfully deleted' });
+    } catch (err) {
+        console.error('Error occurred: ', err);
+        res.status(400).json({ success: false, error: err.message || 'Unknown error' });
+    }
+});
 
 module.exports = { userRouter };
