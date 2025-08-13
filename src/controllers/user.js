@@ -25,7 +25,10 @@ userRouter.post('/register', isGuest(),
                 throw validation.array();
             };
 
-            const userData = await register(req.body.email, req.body.firstName, req.body.lastName, req.body.password);
+            const lat = req.headers['x-user-lat'];
+            const lng = req.headers['x-user-lng'];
+
+            const userData = await register(req.body.email, req.body.firstName, req.body.lastName, req.body.password, lat, lng);
 
             const token = createToken(userData);
             res.cookie('token', token);
@@ -51,7 +54,11 @@ userRouter.post('/login', isGuest(),
                 throw validation.array();
             }
 
-            const userData = await login(req.body.email, req.body.password);
+            const lat = req.headers['x-user-lat'];
+            const lng = req.headers['x-user-lng'];
+
+            const { email, password } = req.body;
+            const userData = await login(email, password, lat, lng);
 
             const token = createToken(userData);
 
@@ -113,10 +120,10 @@ userRouter.put('/update/profile/remove-picture', async (req, res) => {
     try {
         const email = req.body.email;
         console.log(email);
-        
+
         const user = await removePicture(email);
         console.log(user);
-        
+
         res.json({ user });
     } catch (err) {
         res.status(400).json({ message: err.message });
