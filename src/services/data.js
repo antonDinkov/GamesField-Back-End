@@ -72,9 +72,56 @@ async function update(id, userId, newData) {
     return record;
 };
 
-async function interact(id, userId, interactorsListName) {
+
+async function interact(id, userId, interaction) {
+    const record = await Data.findById(id);
+    if (!record) {
+        throw new Error("Game not found " + id);
+    }
+
+    const userRecord = await User.findById(userId);
+    if (!userRecord) {
+        throw new Error("User not found " + userId);
+    }
+
+    if (interaction === 'likes') {
+        // Добавяне в лайкове
+        if (!record.likes.includes(userId)) {
+            record.likes.push(userId);
+        }
+
+        // Добавяне в моите игри
+        if (!userRecord.myGames.includes(id)) {
+            userRecord.myGames.push(id);
+        }
+    } 
+    else if (interaction === 'played') {
+        // Увеличаване на броя игри
+        record.played = (record.played || 0) + 1;
+
+        // Записване на последно играна
+        userRecord.lastPlayed = id;
+    } 
+    else {
+        // Ако имаш други типове взаимодействия
+        record[interaction] = (record[interaction] || 0) + 1;
+    }
+
+    await record.save();
+    await userRecord.save();
+
+    return record;
+}
+
+
+/* async function interact(id, userId, interactorsListName) {
     
     const record = await Data.findById(id);
+    console.log(userId);
+    
+    const userRecord = await User.findById(userId);
+    console.log(userRecord);
+    
     if (!record) {
         throw new Error("Record not found " + id);
     };
@@ -92,15 +139,20 @@ async function interact(id, userId, interactorsListName) {
             user.myGames.push(id);
             await user.save();
         }
+    } else if (interactorsListName === 'played') {
+        console.log('Inside setter: ', id);
+        userRecord['lastPlayed'] = id;
+        record[interactorsListName] = (record[interactorsListName] || 0) + 1;
     } else {
-        record[interactorsListName] = (record[interactorsListName] || 0) + 1;;
+        record[interactorsListName] = (record[interactorsListName] || 0) + 1;
     }
     
     await record.save();
+    await userRecord.save();
 
     return record;
 }
-
+ */
 async function deleteById(id, userId) {
     const record = await Data.findById(id);
     if (!record) {

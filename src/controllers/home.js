@@ -164,13 +164,27 @@ homeRouter.delete('/catalog/:id', isOwner(), async (req, res) => {
 
 homeRouter.post('/catalog/:id/interact', hasInteracted(), async (req, res) => {
     try {
-        const gameInfo = await interact(req.params.id, req.body.interaction==='likes'? req.user._id : undefined , req.body.interaction);
+        const gameInfo = await interact(
+            req.params.id, 
+            req.user._id, 
+            req.body.interaction
+        );
         res.status(200).json(gameInfo);
     } catch (err) {
         console.error('Error occurred: ', err);
         res.status(400).json({ success: false, error: err.message || 'Unknown error' });
     }
 });
+
+/* homeRouter.post('/catalog/:id/interact', hasInteracted(), async (req, res) => {
+    try {
+        const gameInfo = await interact(req.params.id, req.body.interaction ==='likes' || req.body.interaction ==='lastPlayed' || req.body.interaction ==='played'? req.user._id : undefined , req.body.interaction);
+        res.status(200).json(gameInfo);
+    } catch (err) {
+        console.error('Error occurred: ', err);
+        res.status(400).json({ success: false, error: err.message || 'Unknown error' });
+    }
+}); */
 
 homeRouter.get('/profile', isUser(), async (req, res) => {
     const { _id, firstName, email } = req.user;

@@ -57,7 +57,7 @@ function hasInteracted() {
                 };
 
                 const post = await getById(req.params.id);//тази проверка не я бях направил
-                if (req.user._id === post.owner.toString()) {
+                if (req.user._id === post.owner.toString() && req.body.interaction !== 'lastPlayed') {
                     throw new Error("You can not like your own post");
                 }
 
